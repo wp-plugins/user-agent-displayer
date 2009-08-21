@@ -4,7 +4,7 @@ Plugin Name: User Agent Displayer
 Plugin URI: http://www.7sal.com/user-agent-displayer/
 Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<b>Browsers:</b>, Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird, <b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS.<cite>this plugin is still in beta testing. use it at your own risk.</cite>
 Author: Hamed Momeni
-Version: 0.6 beta
+Version: 0.8 beta
 Author URI: http://www.7sal.com
 */
 class browser{
@@ -12,6 +12,7 @@ class browser{
     var $Name = "Unknown";
     var $Version = "Unknown";
     var $Platform = "Unknown";
+    var $Pver = "";
     var $Agent = "Not reported";
     var $AOL = false;
 
@@ -20,13 +21,28 @@ class browser{
 
         // initialize properties
         $bd['platform'] = "Unknown";
+        $bd['pver'] = "";
         $bd['browser'] = "Unknown";
         $bd['version'] = "Unknown";
         $this->Agent = $agent;
 
         // find operating system
-        if (eregi("win", $agent))
+        if (eregi("win", $agent)){
             $bd['platform'] = "Windows";
+	    if(eregi("NT 6.1",$agent))
+            $val = '7';
+            elseif(eregi("NT 6.0",$agent))
+            $val = 'Vista';
+            elseif(eregi("NT 5.2",$agent))
+            $val = 'XP 64-bit/Server 2003';
+            elseif(eregi("NT 5.1",$agent))
+            $val = 'XP';
+            elseif(eregi("NT 5.01",$agent))
+            $val = '2000 SP1';
+            elseif(eregi("NT 5.0",$agent))
+            $val = '2000';
+            $bd['pver'] = $val;
+            }
         elseif (eregi("mac", $agent))
             $bd['platform'] = "MacIntosh";
         elseif (eregi("linux", $agent))
@@ -57,8 +73,20 @@ class browser{
         	$val = explode("Safari",$agent);
         	$bd['version'] = $val[1];
         	$bd['platform'] = 'iPhone';
-        	}
-        elseif(eregi("webtv",$agent)){
+        }elseif(eregi("lunascape",$agent)){ //test for Lunascape
+        	$bd['browser'] = 'Lunascape';
+        	$val = explode("lunascape",strtolower($agent));
+        	$bd['version'] = $val[1];
+        }elseif(eregi("konqueror",$agent)){ // test for Konqueror
+        	$bd['browser'] = "Konqueror";
+        	$val = explode("Konqueror",$agent);
+        	$val = explode(";",$val[1]);
+        	$bd['version'] = $val[0];
+        }elseif(eregi('orca',$agent)){ // test for Orca
+        	$bd['browser'] = 'Orca';
+        	$val = explode('Orca',$agent);
+        	$bd['version'] = $val[1];
+        }elseif(eregi("webtv",$agent)){
             $val = explode("/",stristr($agent,"webtv"));
             $bd['browser'] = $val[0];
             $bd['version'] = $val[1];
@@ -215,20 +243,21 @@ class browser{
         $this->Name = $bd['browser'];
         $this->Version = $bd['version'];
         $this->Platform = $bd['platform'];
+        $this->Pver = $bd['pver'];
         $this->AOL = $bd['aol'];
     }
 }
 function br_img($browser,$ver){
-return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent/img/24/net/'.strtolower($browser).'.png" alt="'.$browser.' '.$ver.'" title="'.$browser.' '.$ver.'">';
+return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/net/'.strtolower($browser).'.png" alt="'.$browser.' '.$ver.'" title="'.$browser.' '.$ver.'">';
 }
-function os_img($os){
-return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent/img/24/os/'.strtolower($os).'.png" alt="'.$os.'" title="'.$os.'">';
+function os_img($os,$pver){
+return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/os/'.strtolower($os).'.png" alt="'.$os.' '.$pver.'" title="'.$os.' '.$pver.'">';
 }
 function display_bf(){
 global $comment;
 $user = new browser($comment->comment_agent);
 echo br_img($user->Name,$user->Version);
-echo os_img($user->Platform);
+echo os_img($user->Platform,$user->Pver);
 echo '<p>';
 echo $comment->comment_content;
 echo '</p>';
