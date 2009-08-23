@@ -1,7 +1,7 @@
 === Plugin Name ===
 Contributors: 2hamed
 Donate link: http://www.7sal.com/1388/05/28/user-agent-displayer/
-Tags: browser,os,operating system,platform,comment
+Tags: browser,os,operating system,platform,comment,comments
 Requires at least: 2.8.2
 Tested up to: 2.8.4
 Stable tag: "trunk"
