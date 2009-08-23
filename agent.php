@@ -4,7 +4,7 @@ Plugin Name: User Agent Displayer
 Plugin URI: http://www.7sal.com/user-agent-displayer/
 Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<b>Browsers:</b>, Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird, <b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS.<cite>this plugin is still in beta testing. use it at your own risk.</cite>
 Author: Hamed Momeni
-Version: 0.8 beta
+Version: 0.9 beta
 Author URI: http://www.7sal.com
 */
 class browser{
@@ -51,9 +51,17 @@ class browser{
             $bd['platform'] = "OS2";
         elseif (eregi("BeOS", $agent))
             $bd['platform'] = "BeOS";
+        elseif (eregi('j2me',$agent))
+            $bd['platform'] = 'Java';
 
         // test for Opera        
         if (eregi("opera",$agent)){
+        	if(eregi("opera mini",$agent)){ // test for Opera Mini
+        		$bd['browser'] = "Opera Mini";
+        		$val = explode('Mini',$agent);
+        		$val = explode('.',$val[1]);
+        		$bd['version'] = $val[0].'.'.$val[1];
+        		}else{
             $val = stristr($agent, "opera");
             if (eregi("/", $val)){
                 $val = explode("/",$val);
@@ -64,6 +72,7 @@ class browser{
                 $val = explode(" ",stristr($val,"opera"));
                 $bd['browser'] = $val[0];
                 $bd['version'] = $val[1];
+            }
             }
 
         // test for WebTV
