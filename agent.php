@@ -2,7 +2,7 @@
 /*
 Plugin Name: User Agent Displayer
 Plugin URI: http://www.7sal.com/user-agent-displayer/
-Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<b>Browsers:</b>, Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird, <b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS.<cite>this plugin is still in beta testing. use it at your own risk.</cite>
+Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<br /><b>Browsers:</b>, Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird, <br /><b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS.<br /><cite>this plugin is still in beta testing. use it at your own risk.</cite>
 Author: Hamed Momeni
 Version: 0.9 beta
 Author URI: http://www.7sal.com
@@ -10,7 +10,7 @@ Author URI: http://www.7sal.com
 class browser{
 
     var $Name = "Unknown";
-    var $Version = "Unknown";
+    var $Version = "";
     var $Platform = "Unknown";
     var $Pver = "";
     var $Agent = "Not reported";
@@ -23,7 +23,7 @@ class browser{
         $bd['platform'] = "Unknown";
         $bd['pver'] = "";
         $bd['browser'] = "Unknown";
-        $bd['version'] = "Unknown";
+        $bd['version'] = "";
         $this->Agent = $agent;
 
         // find operating system
@@ -75,9 +75,12 @@ class browser{
             }
             }
 
-        // test for WebTV
-        }
-        elseif(eregi('iphone',$agent)){
+        
+        }elseif(eregi("Flock",$agent)){// test  for Flock
+        	$bd['browser'] = 'Flock';
+        	$val = explode('Flock',$agent);
+        	$bd['version'] = $val[1];
+        }elseif(eregi('iphone',$agent)){//test for iPhone
         	$bd['browser'] = 'Safari';
         	$val = explode("Safari",$agent);
         	$bd['version'] = $val[1];
@@ -95,7 +98,7 @@ class browser{
         	$bd['browser'] = 'Orca';
         	$val = explode('Orca',$agent);
         	$bd['version'] = $val[1];
-        }elseif(eregi("webtv",$agent)){
+        }elseif(eregi("webtv",$agent)){// test for WebTV
             $val = explode("/",stristr($agent,"webtv"));
             $bd['browser'] = $val[0];
             $bd['version'] = $val[1];
