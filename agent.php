@@ -2,9 +2,9 @@
 /*
 Plugin Name: User Agent Displayer
 Plugin URI: http://www.7sal.com/user-agent-displayer/
-Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<br /><b>Browsers:</b>, Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird, <br /><b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS.<br /><cite>this plugin is still in beta testing. use it at your own risk.</cite>
+Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<br /><b>Browsers:</b>, Firefox, Microsoft IE, Opera, Opera Mini, Safari, Chrome, Chromium, WebTV, Galeon, iCab, omniweb, Amaya, FireBird, Maxthon, Avant, Camino, Shiira, Galeon, Epiphany, K-Meleon, Lunascape, Konqueror, Orca. <br /><b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS, Java.<br /><cite>this plugin is still in beta testing. use it at your own risk.</cite>
 Author: Hamed Momeni
-Version: 0.9 beta
+Version: 1.0.1
 Author URI: http://www.7sal.com
 */
 class browser{
@@ -74,9 +74,39 @@ class browser{
                 $bd['version'] = $val[1];
             }
             }
-
-        
-        }elseif(eregi("Flock",$agent)){// test  for Flock
+        }elseif(eregi("k-meleon",$agent)){// test for K-Meleon
+        	$bd['browser'] = 'K-Meleon';
+        	$val = explode("K-Meleon",$agent);
+        	$bd['version'] = $val[1];
+        }elseif(eregi("shiira",$agent)){// test for Shiira
+        	$bd['browser'] = 'Shiira';
+        	$val = explode('Shiira',$agent);
+        	$val = explode(" ",$val[1]);
+        	$bd['version'] = $val[0];
+        }elseif(eregi('galeon',$agent)){// test for Galoen
+        	$bd['browser'] = "Galeon";
+        	$val = explode("Galeon",$agent);
+        	$val = explode(" ",$val[1]);
+        	$bd['version'] = $val[0];
+        }elseif(eregi("epiphany",$agent)){// test for Epiphany
+        	$bd['browser'] = 'Epiphany';
+        	$val = explode("Epiphany",$agent);
+        	$val = explode(" ",$val[1]);
+        	$bd['version'] = $val[0];
+        }elseif(eregi('camino',$agent)){// test for Camino
+        	$bd['browser'] = 'Camino';
+        	$val = explode('Camino',$agent);
+        	$val = explode(' ',$val[1]);
+        	$bd['version'] = $val[0];
+        }elseif(eregi('avant',$agent)){// test for Avant Browser
+        	$bd['browser'] = 'Avant';
+        	$bd['version'] = 'Browser';
+        }elseif(eregi("maxthon",$agent)){// test for Maxthon
+		$bd['browser'] = 'Maxthon';
+		$val = explode("MAXTHON",$agent);
+		$val = explode(";",$val[1]);
+		$bd['version'] = $val[0];
+	}elseif(eregi("Flock",$agent)){// test  for Flock
         	$bd['browser'] = 'Flock';
         	$val = explode('Flock',$agent);
         	$bd['version'] = $val[1];
@@ -162,9 +192,7 @@ class browser{
             $val = explode("/",stristr($agent,"omniweb"));
             $bd['browser'] = $val[0];
             $bd['version'] = $val[1];
-
-        // test for Phoenix
-        }elseif(eregi("chrome",$agent)){
+        }elseif(eregi("chrome",$agent)){// test for Google Chrome and Chromium
         	if(eregi('linux',$agent)){
         	$bd['browser'] = 'Chromium';
         	}else{
@@ -173,7 +201,7 @@ class browser{
         	$val = explode('Chrome',$agent);
         	$val = explode(" ",$val[1]);
         	$bd['version'] = $val[0];
-        }elseif(eregi("Phoenix", $agent)){
+        }elseif(eregi("Phoenix", $agent)){// test for Phoenix
             $bd['browser'] = "Phoenix";
             $val = explode("/", stristr($agent,"Phoenix/"));
             $bd['version'] = $val[1];
@@ -240,7 +268,7 @@ class browser{
         }
         
         // clean up extraneous garbage that may be in the name
-        $bd['browser'] = ereg_replace("[^a-z,A-Z]", "", $bd['browser']);
+        $bd['browser'] = ereg_replace("[^a-z,A-Z,-]", "", $bd['browser']);
         // clean up extraneous garbage that may be in the version        
         $bd['version'] = ereg_replace("[^0-9,.,a-z,A-Z]", "", $bd['version']);
         

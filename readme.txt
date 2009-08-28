@@ -11,8 +11,8 @@ the User Agent Displayer plugin displays the Browser and the operating system, u
 == Description ==
 
 this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.
-**Browsers:** Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird, Lunascape, Konqueror, Orca 
-**Platforms:** Windows, GNU/Linux, MacIntosh, OS/2, BeOS.
+**Browsers:** Firefox, Microsoft IE, Opera, Opera Mini, Safari, Chrome, Chromium, WebTV, Galeon, iCab, omniweb, Amaya, FireBird, Maxthon, Avant, Camino, Shiira, Galeon, Epiphany, K-Meleon, Lunascape, Konqueror, Orca.
+**Platforms:** Windows, GNU/Linux, MacIntosh, OS/2, BeOS, Java.
 *this plugin is still in beta testing. use it at your own risk.*
 
 == Installation ==
@@ -23,12 +23,14 @@ this plug-in displays the Browser and Platform of user who commented in your blo
 
 
 == Changelog ==
+= 1.0.1 =
+* added support for brosers: Maxthon, Avant, Camino, Shiira, Galeon, Epiphany, K-Meleon
 = 0.9 beta =
 * added support for browsers: Opera Mini
 * added support for platforms: Java
 = 0.8 beta =
 * added support for(browsers): Lunascape, Konqueror, Orca
-* Now can find out the winows Versions(2000,XP,Vista,7)
+* Now can determine the Windows Versions(2000,XP,Vista,7)
 = 0.6 beta =
-* Added support for(browsers):Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, Konqueror, iCab, omniweb, Amaya, FireBird
+* Added support for(browsers):Firefox, Microsoft IE, Opera, Safari, Chrome, Chromium, WebTV, Galeon, iCab, omniweb, Amaya, FireBird
 * Added support for(OS):Windows, GNU/Linux, MacIntosh, OS/2, BeOS
