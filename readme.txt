@@ -23,6 +23,9 @@ this plug-in displays the Browser and Platform of user who commented in your blo
 
 
 == Changelog ==
+= 1.5 =
+* all the regex expressions with eregi() were replaced by stripos() due to the deprecating of eregi() function in later versions PHP
+* bugs fixed when the browser is Opera 10
 = 1.0.1 =
 * added support for brosers: Maxthon, Avant, Camino, Shiira, Galeon, Epiphany, K-Meleon
 = 0.9 beta =
