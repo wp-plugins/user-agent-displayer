@@ -4,7 +4,7 @@ Plugin Name: User Agent Displayer
 Plugin URI: http://www.7sal.com/user-agent-displayer/
 Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<br /><b>Browsers:</b>, Firefox, Microsoft IE, Opera, Opera Mini, Safari, Chrome, Chromium, WebTV, Galeon, iCab, omniweb, Amaya, FireBird, Maxthon, Avant, Camino, Shiira, Galeon, Epiphany, K-Meleon, Lunascape, Konqueror, Orca. <br /><b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS, Java.<br /><cite>this plugin is still in beta testing. use it at your own risk.</cite>
 Author: Hamed Momeni
-Version: 1.5
+Version: 1.6
 Author URI: http://www.7sal.com
 */
 class browser{
@@ -46,9 +46,9 @@ class browser{
         elseif (stripos($agent,'mac'))
             $bd['platform'] = "MacIntosh";
         elseif (stripos($agent,'linux'))
-            $bd['platform'] = "Linux";
+            $bd['platform'] = "GNU/Linux";
         elseif (stripos($agent,'OS/2'))
-            $bd['platform'] = "OS2";
+            $bd['platform'] = "OS/2";
         elseif (stripos($agent,'BeOS'))
             $bd['platform'] = "BeOS";
         elseif (stripos($agent,'j2me'))
@@ -211,7 +211,11 @@ class browser{
             $val = stristr($agent, "Firebird");
             $val = explode("/",$val);
             $bd['version'] = $val[1];
-            
+        
+        }elseif(stripos($agent,'shiretoko')){ // test for Shiretoko
+        	$bd['browser'] = 'Shiretoko';
+        	$val = explode('Shiretoko',$agent);
+        	$bd['version'] = $val[1];    
         // test for Firefox
         }elseif(stripos($agent,'Firefox')){
             $bd['browser']="Firefox";
@@ -286,20 +290,51 @@ class browser{
         $this->AOL = $bd['aol'];
     }
 }
-function br_img($browser,$ver){
-return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/net/'.strtolower($browser).'.png" alt="'.$browser.' '.$ver.'" title="'.$browser.' '.$ver.'">';
+function br_img($browser,$ver,$id){
+$browseri = ereg_replace("[^a-z,A-Z,-]", "", $browser);
+return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/net/'.strtolower($browseri).'.png" alt="'.$browser.' '.$ver.'" title="'.$browser.' '.$ver.'" onmouseover="display_uad('.$id.');" onmouseout="hide_uad('.$id.');">';
 }
-function os_img($os,$pver){
-return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/os/'.strtolower($os).'.png" alt="'.$os.' '.$pver.'" title="'.$os.' '.$pver.'">';
+function os_img($os,$pver,$id){
+$osi = ereg_replace("[^a-z,A-Z,-]", "", $os);
+return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/os/'.strtolower($osi).'.png" alt="'.$os.' '.$pver.'" title="'.$os.' '.$pver.'" onmouseover="display_uad('.$id.');" onmouseout="hide_uad('.$id.');">';
 }
+
 function display_bf(){
 global $comment;
 $user = new browser($comment->comment_agent);
-echo br_img($user->Name,$user->Version);
-echo os_img($user->Platform,$user->Pver);
-echo '<p>';
-echo $comment->comment_content;
-echo '</p>';
+$uad = br_img($user->Name,$user->Version,$comment->comment_ID);
+$uad .= os_img($user->Platform,$user->Pver,$comment->comment_ID);
+$uad .= '<div id="useragents'.$comment->comment_ID.'" style="display:none;direction:rtl;text-align:left;"><b>User Agent:</b> '.$comment->comment_agent.'</div>';
+return $uad;
 }
-add_filter('get_comment_text','display_bf');
+function uad_dis(){
+echo display_bf();
+apply_comment_filters();
+add_filter('comment_text', 'uad_dis');
+}
+function apply_comment_filters(){
+	global $comment;
+	remove_filter('comment_text', 'uad_dis');
+	apply_filters('get_comment_text', $comment->comment_content);
+	echo apply_filters('comment_text', $comment->comment_content);
+}
+add_filter('comment_text', 'uad_dis');
+function uad_style(){
+echo '<script>
+function display_uad(id){
+document.getElementById(\'useragents\'+id).style.display= \'block\';
+}
+function hide_uad(id){
+document.getElementById(\'useragents\'+id).style.display= \'none\';
+}
+</script>';
+}
+add_filter('wp_head','uad_style');
+/*add_action('admin_menu', 'uadmenu');
+function uadmenu(){
+	add_options_page('UAD Options', 'User Agent Displayer', 10, 'user-agent-displayer', 'uado');
+	}
+function uado(){
+echo 'user agent displayer';
+}*/
 ?>
