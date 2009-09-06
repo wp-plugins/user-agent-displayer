@@ -330,6 +330,7 @@ document.getElementById(\'useragents\'+id).style.display= \'none\';
 </script>';
 }
 add_filter('wp_head','uad_style');
+add_action('admin_head', 'uad_style');
 /*add_action('admin_menu', 'uadmenu');
 function uadmenu(){
 	add_options_page('UAD Options', 'User Agent Displayer', 10, 'user-agent-displayer', 'uado');
