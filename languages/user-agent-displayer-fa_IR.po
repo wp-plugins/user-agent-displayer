@@ -1,0 +1,44 @@
+# Persian Translation for User Agent Displayer
+# Copyright (C) 2009 WordPress contributors.
+# This file is distributed under the same license as the WordPress package.
+# Hamed Momeni <grimreaper.hm@gmail.com>, 2009.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: User Agent Displayer plug-in\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-02-27 17:11-0600\n"
+"PO-Revision-Date: 2009-22-09 12:00+3300\n"
+"Last-Translator: Hamed Momeni <grimreaper.hm@gmail.com>\n"
+"Language-Team: FA <fa@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+#: agent-panel.php:3
+msgid "User Agent Displayer Options Page"
+msgstr "صفحه تنظیمات افزونه User Agent Displayer"
+#: agent-panel.php:3
+msgid "still in progress"
+msgstr "در دست توسعه"
+#: agent-panel.php:
+msgid "Images Size"
+msgstr "اندازه تصاویر"
+#: agent-panel.php:23
+msgid "Larger than 24px you might lose the quality"
+msgstr "اندازه بزرگتر از ۲۴ پیکسل باعث کاهش کیفیت تصاویر میشود"
+#: agent-panel.php:26
+msgid "UserAgent String Display Mode"
+msgstr "نهوه نمایش مشخصات مرورگر"
+#: agent-panel.php:28
+msgid "On Mouse Hover"
+msgstr "با قرارگیری ماوس روی تصویر"
+#: agent-panel.php:29
+msgid "On Click"
+msgstr "با کلیک بر روی تصویر"
+#: agent-panel.php:30
+msgid "Do Not Display"
+msgstr "نمایش نده"
+#: agent.php:355
+msgid "UADisplayer"
+msgstr "تنظیمات UAD"

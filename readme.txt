@@ -19,6 +19,9 @@ this plug-in displays the Browser and Platform of user who commented in your blo
 
 
 == Changelog ==
+= 1.8 =
+* introduces the Options Page which is located under Settings menu
+* here comes the Persian localization
 = 1.6 =
 * Several bugs fixed: now correctly displays comment content with all smilies, spaces and new lines.
 * now mouse over the images and you can see the user agent

@@ -2,9 +2,9 @@
 /*
 Plugin Name: User Agent Displayer
 Plugin URI: http://www.7sal.com/user-agent-displayer/
-Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.it supports the following browsers and platforms.<br /><b>Browsers:</b>, Firefox, Microsoft IE, Opera, Opera Mini, Safari, Chrome, Chromium, WebTV, Galeon, iCab, omniweb, Amaya, FireBird, Maxthon, Avant, Camino, Shiira, Galeon, Epiphany, K-Meleon, Lunascape, Konqueror, Orca. <br /><b>Platforms:</b>, Windows, GNU/Linux, MacIntosh, OS/2, BeOS, Java.<br /><cite>this plugin is still in beta testing. use it at your own risk.</cite>
+Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.
 Author: Hamed Momeni
-Version: 1.6
+Version: 1.8
 Author URI: http://www.7sal.com
 */
 class browser{
@@ -290,21 +290,40 @@ class browser{
         $this->AOL = $bd['aol'];
     }
 }
+$uasmode = get_option('showuas');
+function uasdis($id){
+global $uasmode;
+switch($uasmode){
+case 'mouseover':
+return 'onmouseover="display_uad('.$id.');" onmouseout="hide_uad('.$id.');"';
+break;
+case 'click':
+return 'onclick="display_uad('.$id.');" onmouseout="hide_uad('.$id.');"';
+break;
+case 'none':
+return '';
+}
+}
+$imgsize = get_option('imgsize');
 function br_img($browser,$ver,$id){
+global $imgsize;
 $browseri = ereg_replace("[^a-z,A-Z,-]", "", $browser);
-return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/net/'.strtolower($browseri).'.png" alt="'.$browser.' '.$ver.'" title="'.$browser.' '.$ver.'" onmouseover="display_uad('.$id.');" onmouseout="hide_uad('.$id.');">';
+return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/net/'.strtolower($browseri).'.png" alt="'.$browser.' '.$ver.'" title="'.$browser.' '.$ver.'" '.uasdis($id).' height="'.$imgsize.'" width="'.$imgsize.'" />';
 }
 function os_img($os,$pver,$id){
+global $imgsize;
 $osi = ereg_replace("[^a-z,A-Z,-]", "", $os);
-return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/os/'.strtolower($osi).'.png" alt="'.$os.' '.$pver.'" title="'.$os.' '.$pver.'" onmouseover="display_uad('.$id.');" onmouseout="hide_uad('.$id.');">';
+return '<img src="'.get_option('siteurl').'/wp-content/plugins/user-agent-displayer/img/24/os/'.strtolower($osi).'.png" alt="'.$os.' '.$pver.'" title="'.$os.' '.$pver.'" '.uasdis($id).' height="'.$imgsize.'" width="'.$imgsize.'" />';
 }
 
 function display_bf(){
-global $comment;
+global $comment,$uasmode;
 $user = new browser($comment->comment_agent);
 $uad = br_img($user->Name,$user->Version,$comment->comment_ID);
 $uad .= os_img($user->Platform,$user->Pver,$comment->comment_ID);
+if($uasmode != 'none'){
 $uad .= '<div id="useragents'.$comment->comment_ID.'" style="display:none;direction:rtl;text-align:left;"><b>User Agent:</b> '.$comment->comment_agent.'</div>';
+}
 return $uad;
 }
 function uad_dis(){
@@ -331,11 +350,15 @@ document.getElementById(\'useragents\'+id).style.display= \'none\';
 }
 add_filter('wp_head','uad_style');
 add_action('admin_head', 'uad_style');
-/*add_action('admin_menu', 'uadmenu');
+
 function uadmenu(){
-	add_options_page('UAD Options', 'User Agent Displayer', 10, 'user-agent-displayer', 'uado');
+	add_options_page(__('UADisplayer','user-agent-displayer'), __('UADisplayer','user-agent-displayer'), 'manage_options', 'user-agent-displayer/agent-panel.php');
 	}
-function uado(){
-echo 'user agent displayer';
-}*/
+add_action('admin_menu', 'uadmenu');
+add_action( 'admin_init', 'register_uadsettings' );
+function register_uadsettings() { // whitelist options
+  register_setting( 'uad-options', 'imgsize' );
+  register_setting( 'uad-options', 'showuas' );
+}
+load_plugin_textdomain('user-agent-displayer', NULL, dirname(plugin_basename(__FILE__)) . "/languages");
 ?>
