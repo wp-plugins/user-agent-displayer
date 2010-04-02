@@ -3,7 +3,7 @@ Contributors: 2hamed
 Donate link: http://www.7sal.com/1388/05/28/user-agent-displayer/
 Tags: browser,os,operating system,platform,comment,comments,user,agent,user agent
 Requires at least: 2.8.2
-Tested up to: 2.8.5
+Tested up to: 2.9.2
 Stable tag: "trunk"
 
 the User Agent Displayer plugin displays the Browser and the operating system, user used to leave a comment.
