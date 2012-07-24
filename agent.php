@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: User Agent Displayer
-Plugin URI: http://www.7sal.com/user-agent-displayer/
+Plugin URI: http://ootooban.com
 Description: this plug-in displays the Browser and Platform of user who commented in your blog. it is capable of determining the version of the borwser.
 Author: Hamed Momeni
 Version: 1.8
-Author URI: http://www.7sal.com
+Author URI: http://ootooban.com
 */
 class browser{
 
